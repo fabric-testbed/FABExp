@@ -1,4 +1,4 @@
-# Fabric Experiment Framework (FABExp)
+# Fabric Experiment Framework
 
 ## Description
 

@@ -1,0 +1,158 @@
+{
+    "state_dependencies": {
+        "SLICE_DEFINED": {
+            "required_state": [],
+            "related_notebook": "DEFINE_SLICE_NOTEBOOK"
+        },
+        "SLICE_SUBMITTED": {
+            "required_state": [
+                "SLICE_DEFINED"
+            ],
+            "related_notebook": "SUBMIT_SLICE_NOTEBOOK"
+        },
+        "SLICE_CONFIGURED": {
+            "required_state": [
+                "SLICE_DEFINED",
+                "SLICE_SUBMITTED"
+            ],
+            "related_notebook": "CONFIG_SLICE_NOTEBOOK"
+        },
+        "MEAS_NODE_ADDED": {
+            "required_state": [
+                "SLICE_DEFINED",
+                "SLICE_SUBMITTED"
+            ],
+            "related_notebook": "MFLIB_ADD_MEAS_NODE_AFTER_SUBMIT_NOTEBOOK"
+        },
+        "MFLIB_INITIATED": {
+            "required_state": [
+                "SLICE_DEFINED",
+                "SLICE_SUBMITTED",
+                "SLICE_CONFIGURED",
+                "MEAS_NODE_ADDED"
+            ],
+            "related_notebook": "MFLIB_INIT_NOTEBOOK"
+        },
+        "ELK_INSTRUMENTIZED": {
+            "required_state": [
+                "SLICE_DEFINED",
+                "SLICE_SUBMITTED",
+                "SLICE_CONFIGURED",
+                "MEAS_NODE_ADDED",
+                "MFLIB_INITIATED"
+            ],
+            "related_notebook": "MFLIB_INSTRUMENTIZE_ELK_NOTEBOOK"
+        },
+        "PROMETHEUS_INSTRUMENTIZED": {
+            "required_state": [
+                "SLICE_DEFINED",
+                "SLICE_SUBMITTED",
+                "SLICE_CONFIGURED",
+                "MEAS_NODE_ADDED",
+                "MFLIB_INITIATED"
+            ],
+            "related_notebook": "MFLIB_INSTRUMENTIZE_PROMETHEUS_NOTEBOOK"
+        },
+        "PTP_INSTALLED": [
+            {
+                "required_state": [
+                    "SLICE_DEFINED",
+                    "SLICE_SUBMITTED",
+                    "SLICE_CONFIGURED"
+                ],
+                "related_notebook": "INSTALL_PTP_NOTEBOOK"
+            },
+            {
+                "required_state": [
+                    "SLICE_DEFINED",
+                    "SLICE_SUBMITTED",
+                    "SLICE_CONFIGURED",
+                    "MEAS_NODE_ADDED",
+                    "MFLIB_INITIATED"
+                ],
+                "related_notebook": ""
+            }
+        ],
+        "DOCKER_INSTALLED": [
+            {
+                "required_state": [
+                    "SLICE_DEFINED",
+                    "SLICE_SUBMITTED",
+                    "SLICE_CONFIGURED"
+                ],
+                "related_notebook": "INSTALL_DOCKER_NOTEBOOK"
+            },
+            {
+                "required_state": [
+                    "SLICE_DEFINED",
+                    "SLICE_SUBMITTED",
+                    "SLICE_CONFIGURED",
+                    "MEAS_NODE_ADDED",
+                    "MFLIB_INITIATED"
+                ],
+                "related_notebook": ""
+            }
+        ]
+    },
+    "experiment_prerequisite_states": {
+        "ELK Stack": [
+            "ELK_INSTRUMENTIZED"
+        ],
+        "Prometheus": [
+            "PROMETHEUS_INSTRUMENTIZED"
+        ],
+        "Precision Timing": [
+            "SLICE_DEFINED",
+            "SLICE_SUBMITTED",
+            "SLICE_CONFIGURED",
+            "PTP_INSTALLED",
+            "DOCKER_INSTALLED"
+        ],
+        "Data Transfer service": [
+            "SLICE_DEFINED",
+            "SLICE_SUBMITTED",
+            "SLICE_CONFIGURED",
+            "MEAS_NODE_ADDED",
+            "MFLIB_INITIATED",
+            "ELK_INSTRUMENTIZED",
+            "PROMETHEUS_INSTRUMENTIZED"
+        ],
+        "One-Way-Latency (OWL)": [
+            "SLICE_DEFINED",
+            "SLICE_SUBMITTED",
+            "SLICE_CONFIGURED",
+            "PTP_INSTALLED",
+            "DOCKER_INSTALLED"
+        ]
+    },
+    "notebooks_collection": {
+        "ELK Stack": [
+            "MFLIB_INSTRUMENTIZE_ELK_NOTEBOOK",
+            "MFLIB_VIEW_ELK_NOTEBOOK"
+        ],
+        "Prometheus": [
+            "MFLIB_INSTRUMENTIZE_PROMETHEUS_NOTEBOOK",
+            "MFLIB_VIEW_PROMETHEUS_NOTEBOOK"
+        ],
+        "Precision Timing": [
+            "DEMO_PRECISION_TIMING_NOTEBOOK",
+            "RECORD_TIMESTAMP_NOTEBOOK",
+            "VISUALIZE_TIMESTAMP_NOTEBOOK"
+        ],
+        "Data Transfer service": [
+            "BACKUP_SLICE_NOTEBOOK",
+            "ELK_EXPORT_NOTEBOOK",
+            "ELK_IMPORT_NOTEBOOK",
+            "PROMETHEUS_EXPORT_NOTEBOOK",
+            "PROMETHEUS_IMPORT_NOTEBOOK",
+            "ELK_BIGQUERY_SETUP_NOTEBOOK",
+            "ELK_BIGQUERY_UPLOAD_DATA_NOTEBOOK",
+            "ELK_BIGQUERY_QUERY_DATA_NOTEBOOK"
+        ],
+        "One-Way-Latency (OWL)": [
+            "RUN_OWL_NOTEBOOK",
+            "VIEW_OWL_DATA_NOTEBOOK"
+        ]
+        
+    }
+}
